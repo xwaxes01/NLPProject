@@ -109,6 +109,7 @@ document_three_content = Question2(document_three)
 document_four_content = Question2(document_four)
 document_five_content = Question2(document_five)
 
+print("Extracting strings from the web files...")
 # Strip html elements and get the text from each of the documents
 text_document_one = document_one_content.text()
 text_document_two = document_two_content.text()
@@ -116,6 +117,7 @@ text_document_three = document_three_content.text()
 text_document_four = document_four_content.text()
 text_document_five = document_five_content.text()
 
+print("Tokenizing documents...")
 # Tokenize each of the documents
 tokenized_document_one = document_one_content.tokenize(text_document_one)
 tokenized_document_two = document_two_content.tokenize(text_document_two)
@@ -123,6 +125,7 @@ tokenized_document_three = document_three_content.tokenize(text_document_three)
 tokenized_document_four = document_four_content.tokenize(text_document_four)
 tokenized_document_five = document_five_content.tokenize(text_document_five)
 
+print("Converting to lowercase...")
 # Convert each of the tokenized documents to lowercase
 lowercase_doc_one = document_one_content.to_lowercase(tokenized_document_one)
 lowercase_doc_two = document_two_content.to_lowercase(tokenized_document_two)
@@ -130,6 +133,7 @@ lowercase_doc_three = document_three_content.to_lowercase(tokenized_document_thr
 lowercase_doc_four = document_four_content.to_lowercase(tokenized_document_four)
 lowercase_doc_five = document_five_content.to_lowercase(tokenized_document_five)
 
+print("Removing stopwords...")
 # Remove all stopwords from each of the documents
 no_stopwords_doc_one = document_one_content.remove_stopwords(lowercase_doc_one)
 no_stopwords_doc_two = document_two_content.remove_stopwords(lowercase_doc_two)
@@ -137,6 +141,15 @@ no_stopwords_doc_three = document_three_content.remove_stopwords(lowercase_doc_t
 no_stopwords_doc_four = document_four_content.remove_stopwords(lowercase_doc_four)
 no_stopwords_doc_five = document_five_content.remove_stopwords(lowercase_doc_five)
 
+print("Plotting distribution table...")
+# Plot freq distribution table
+document_one_content.fdistribution(no_stopwords_doc_one)
+document_two_content.fdistribution(no_stopwords_doc_two)
+document_three_content.fdistribution(no_stopwords_doc_three)
+document_four_content.fdistribution(no_stopwords_doc_four)
+document_five_content.fdistribution(no_stopwords_doc_five)
+
+print("Calculating tfs of each document...")
 # Evaluate the tf of each document
 tf_doc_one = document_one_content.tf(no_stopwords_doc_one)
 tf_doc_two = document_two_content.tf(no_stopwords_doc_two)
@@ -144,9 +157,11 @@ tf_doc_three = document_two_content.tf(no_stopwords_doc_three)
 tf_doc_four = document_two_content.tf(no_stopwords_doc_four)
 tf_doc_five = document_two_content.tf(no_stopwords_doc_five)
 
+print("Evaluating idf...")
 # Evaluate the idf of all documents
 all_documents_idf = document_one_content.idf([tf_doc_one, tf_doc_two, tf_doc_three, tf_doc_four, tf_doc_five])
 
+print("Calculating tf-idf...")
 # Evaluate the tf-idf of each document
 tf_idf_doc_one = document_one_content.tf_idf(tf_doc_one, all_documents_idf)
 tf_idf_doc_two = document_two_content.tf_idf(tf_doc_two, all_documents_idf)
@@ -154,6 +169,7 @@ tf_idf_doc_three = document_three_content.tf_idf(tf_doc_three, all_documents_idf
 tf_idf_doc_four = document_four_content.tf_idf(tf_doc_four, all_documents_idf)
 tf_idf_doc_five = document_five_content.tf_idf(tf_doc_five, all_documents_idf)
 
+print("Printing top 10 elements...")
 # Output the top 10 elements with the highest tf_idfs
 print(document_one_content.tf_idf_top10(tf_idf_doc_one))
 print(document_two_content.tf_idf_top10(tf_idf_doc_two))
@@ -174,7 +190,8 @@ doc_term_matrix = sparse_matrix.todense()
 df = pd.DataFrame(doc_term_matrix,
                   columns=count_vectorizer.get_feature_names(),
                   index= [document_one, document_two, document_three, document_four, document_five])
-df
+
+
 # Compute Cosine Similarity
 
 print(cosine_similarity(df, df))
